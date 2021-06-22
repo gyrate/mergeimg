@@ -1,0 +1,33 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 140rpx;
+
+    .main{
+        position: relative;
+        min-height: 100%;
+        text-align: center;
+    }
+}
+.toolbar{
+    position:fixed;
+    left: 0;
+    bottom:0;
+    width: 100%;
+    background: rgba(255,255,255,0.5);
+    box-sizing: border-box;
+    padding: 1em 2em 0.5em;
+    text-align: center;
+}
+.uni-flex {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+}
+.uni-row {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+}
