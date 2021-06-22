@@ -1,2 +1,2 @@
 # mergeimg
-merge imgs into one
+merge several pictures into one
