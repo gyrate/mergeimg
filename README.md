@@ -20,6 +20,6 @@ npm run build
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## 创建项目
+## how to create uni-app project
 
 vue create -p E:\develop\uni-preset-vue-master my-project
