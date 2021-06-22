@@ -1,10 +1,10 @@
 .wrap {
     display: flex;
     flex-direction: column;
-    padding-bottom: 140rpx;
 
     .main{
         position: relative;
+        padding-bottom: 140rpx;
         min-height: 100%;
         text-align: center;
     }

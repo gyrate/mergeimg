@@ -1,6 +1,6 @@
 <template>
   <view class="wrap">
-    <scroll-view  :scroll-y="true" style="background-color:#ccc;text-align: center;height: 80%;">
+    <scroll-view  :scroll-y="true" class="genbox">
       <image mode="widthFix" :src="imgSrc"  ></image>
     </scroll-view>
 
@@ -50,7 +50,15 @@
   }
 </script>
 
-<style lang="scss" type="text/scss">
+<style lang="scss" >
+  .genbox{
+    position: fixed;
+    height: 100%;
+    padding: 1em 0 7.5em;
+    box-sizing: border-box;
+    text-align: center;
+    background-color:#ccc;
+  }
   .uni-image{
     width:100%;
   }

@@ -6,11 +6,11 @@
       </view>
 
       <view class="botbar uni-flex uni-row">
-        <!--<text @click="generate" >生成</text>-->
+
         <uni-view  class="tool">
           <image mode="aspectFit"   src="/static/font.png"></image>
         </uni-view>
-        <uni-view  class="text" style="width: 100px;">生成图片</uni-view>
+        <uni-view  class="text" style="width: 100px;" @click="generate">生成图片</uni-view>
 
       </view>
   </view>
