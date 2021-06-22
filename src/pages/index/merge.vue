@@ -4,14 +4,17 @@
       <view class="main">
         <canvas canvas-id="canvas" id="canvas" class="canvas" :style="{height: canvasHeight+'px'}"></canvas>
       </view>
+      <movable-area :style="{height: canvasHeight+'px'}" >
+        <movable-view :x="100" :y="200" direction="all" @change="onChange" v-show="textVisible">
+          <textarea auto-height v-model="text" style="color:red;font-size:40px;"/>
+        </movable-view>
+      </movable-area>
 
       <view class="botbar uni-flex uni-row">
-
         <uni-view  class="tool">
-          <image mode="aspectFit"   src="/static/font.png"></image>
+          <image mode="aspectFit"  src="/static/font.png" @click="toggleText"></image>
         </uni-view>
         <uni-view  class="text" style="width: 100px;" @click="generate">生成图片</uni-view>
-
       </view>
   </view>
 </template>
@@ -25,8 +28,14 @@
         canvasWidth: null,
         canvasHeight: 0,
         ctx: null,
-        count: 0,
-        flag: 0
+        flag: 0,
+        text: '文本',
+        textVisible: false,
+
+        cur: {
+          x: 100,
+          y: 200
+        }
       }
     },
     onReady: function () {
@@ -36,6 +45,7 @@
           this.ctx = uni.createCanvasContext('canvas')
 
           this.drawImg()
+          this.ctx.draw()
         }).exec()
       })
     },
@@ -43,7 +53,18 @@
 
     },
     methods: {
-      async drawImg(){
+
+      toggleText(){
+        this.textVisible = !this.textVisible
+      },
+
+      onChange: function (e) {
+        const {x, y} = e.detail
+        this.cur.x = x;
+        this.cur.y = y
+      },
+
+      async drawImg() {
         const app = getApp()
         const imgList = app.globalData.imgList
         if (imgList.length <= 0) {
@@ -53,32 +74,47 @@
         this.canvasHeight = imgList.reduce((a, b) => {
           return a + b.height
         }, 0)
-		console.log(`this.canvasHeight ${this.canvasHeight}`)
-	
+        console.log(`this.canvasHeight ${this.canvasHeight}`)
+
         var flag = 0
         for (let i = 0; i < imgList.length; i++) {
           const {width, height, src} = imgList[i]
-          	
+
           this.ctx.drawImage(src, 0, flag, width, height)
           flag += height
-		  console.log(`width:${width},height:${height},flag:${flag}`)
+          console.log(`width:${width},height:${height},flag:${flag}`)
         }
-        this.ctx.draw()
+        // this.ctx.draw()
       },
 
-      loadImage(src){
-        return new Promise(resolve=>{
+      // loadImage(src) {
+      //   return new Promise(resolve => {
           // const img = new Image()
           // img.src = src
           // img.onload = function(){
           //   console.log(`${img.width},${img.height}`)
-            resolve(src)
+          // resolve(src)
           // }
-        })
+      //   })
+      // },
+
+      drawText() {
+        if (this.textVisible) {
+          const ctx = this.ctx
+          ctx.font = "40px Arial";
+          ctx.fillStyle = "red";
+          // ctx.textBaseline = "top";
+          ctx.fillText(this.text, this.cur.x +1, this.cur.y + 42);
+          this.textVisible = false
+        }
       },
 
-      generate(){
-        var t = this
+      generate() {
+
+        this.drawImg()
+        this.drawText()
+        this.ctx.draw()
+
         //画布生成图片
         uni.canvasToTempFilePath({
           x: 0,
@@ -104,7 +140,32 @@
   }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
+
+  uni-movable-area  {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    background-color: transparent;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+  uni-movable-view {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height:52px;
+    width: 150px;
+    color: #333;
+
+    uni-textarea{
+      border: 1px solid #007aff;
+    }
+  }
 
   .canvas{
     width: 750rpx;
